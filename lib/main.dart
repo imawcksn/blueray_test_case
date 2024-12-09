@@ -1,7 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:blueray_test_project/config/config.dart';
 import 'package:blueray_test_project/modules/authentication/service.dart';
+import 'package:blueray_test_project/pages/home/address_page/address_page/address_page.dart';
+import 'package:blueray_test_project/pages/home/main_page/main_page.dart';
+import 'package:blueray_test_project/pages/initial/initial_page.dart';
 import 'package:blueray_test_project/pages/register/mini/register.dart';
 import 'package:blueray_test_project/pages/starting/starting.dart';
 import 'package:blueray_test_project/ui/pallete/pallete.dart';
@@ -20,31 +24,60 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppConfig().loadEnvironmentVariables();
-  // final expiryDateStr = await AuthService().getAuthTokenExpiryDate();
+  final expiryDateStr = await AuthService().getTestAuthTokenExpiryDate();
+  await AppConfig.initialize();
   HttpOverrides.global = MyHttpOverrides();
 
   runApp(DevicePreview(
       enabled: !kReleaseMode,
-      builder: (context) => ProviderScope(child: const MainApp())));
+      builder: (context) => ProviderScope(
+              child: MainApp(
+            expiryDateStr: expiryDateStr,
+          ))));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final String? expiryDateStr;
+  const MainApp({super.key, required this.expiryDateStr});
 
   @override
+
+  void scheduleExpiryNavigation(BuildContext context, DateTime expiryDate) {
+    final now = DateTime.now().toUtc();
+    final remainingDuration = expiryDate.difference(now);
+
+    Timer(remainingDuration, () {
+      print('session ended');
+      navigatorKey.currentState?.pushReplacementNamed('/login');
+    });
+  }
+
   Widget build(BuildContext context) {
+    print(
+        "[MainApp] Starting application. Initial token expiry date: $expiryDateStr");
     return MaterialApp(
+      navigatorKey: navigatorKey,
+      routes: {
+        '/': (context) => InitialScreen(),
+        '/home': (context) => MainPage(),
+        '/login': (context) => StartingPage(),
+        '/address': (context) => AddressPage(),
+      },
+      initialRoute: '/',
+
+      darkTheme: ThemeData.light(), 
+      themeMode: ThemeMode.light, 
       // useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       builder: (context, child) {
-        // Wrap the entire app with CupertinoTheme
         return CupertinoTheme(
           data: CupertinoThemeData(
-            primaryColor: Palette.mainBlueColor, // Active elements color
-            barBackgroundColor: Colors.grey[200], // Background of bars
+            primaryColor: Palette.mainBlueColor,
+            barBackgroundColor: Colors.grey[200],
             textTheme: CupertinoTextThemeData(
               textStyle: TextStyle(
                 fontSize: 16,
@@ -67,7 +100,6 @@ class MainApp extends StatelessWidget {
       //     primaryColor: Palette.mainBlueColor,
       //     scaffoldBackgroundColor: Colors.white),
 
-      home: StartingPage(),
       debugShowCheckedModeBanner: false,
     );
   }

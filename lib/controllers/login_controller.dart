@@ -1,6 +1,7 @@
 // controllers/providers/login_provider.dart
 import 'package:blueray_test_project/modules/authentication/service.dart';
 import 'package:blueray_test_project/modules/register/service.dart';
+import 'package:blueray_test_project/pages/initial/initial_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginState {
@@ -66,6 +67,8 @@ class LoginController extends StateNotifier<LoginState> {
           isLoading: false,
         );
         print("Registration successful!");
+        final expiry = await AuthService().getTestAuthTokenExpiryDate();
+        AuthTimerService().startTimer(DateTime.parse(expiry.toString()));
         return '';
       } else {
         print("Registration failed: $success");

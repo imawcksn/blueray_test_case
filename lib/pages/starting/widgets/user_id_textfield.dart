@@ -29,7 +29,6 @@ class _UserIdTextFieldState extends ConsumerState<UserIdTextField> {
               ? CupertinoButton(
                   padding: EdgeInsets.all(0),
                   child: Icon(
-                    
                     Icons.clear_rounded,
                   ),
                   onPressed: () {
@@ -56,6 +55,7 @@ class _UserIdTextFieldState extends ConsumerState<UserIdTextField> {
       onSubmitted: (value) {
         FocusScope.of(context).nextFocus();
       },
+      textInputAction: TextInputAction.next,
       placeholder: 'Email / No. telp',
       controller: controller,
       placeholderStyle: GoogleFonts.poppins(

@@ -1,6 +1,5 @@
 import 'package:blueray_test_project/controllers/login_controller.dart';
-import 'package:blueray_test_project/pages/home_page/main_page.dart';
-import 'package:blueray_test_project/pages/home_page/profile/profile_page.dart';
+import 'package:blueray_test_project/pages/home/main_page/main_page.dart';
 import 'package:blueray_test_project/pages/starting/widgets/password_textfield.dart';
 import 'package:blueray_test_project/pages/starting/widgets/register_button.dart';
 import 'package:blueray_test_project/pages/starting/widgets/user_id_textfield.dart';
@@ -93,7 +92,7 @@ class StartingPage extends ConsumerWidget {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: true, // Resizes when the keyboard appears
+      resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
       appBar: CupertinoNavigationBar(

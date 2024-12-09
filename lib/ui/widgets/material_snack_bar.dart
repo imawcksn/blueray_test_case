@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 void showSnackBar({
   required BuildContext context,
   required String message,
-  Color backgroundColor = Colors.black,
+  Color backgroundColor = Colors.green,
   Color textColor = Colors.white,
 }) {
   final snackBar = SnackBar(
@@ -15,6 +15,6 @@ void showSnackBar({
   );
 
   ScaffoldMessenger.of(context)
-      .clearSnackBars(); // Clears any existing snack bars
+      .clearSnackBars(); 
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

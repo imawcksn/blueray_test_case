@@ -18,6 +18,7 @@ class _PasswordTextFieldState extends ConsumerState<PasswordTextField> {
     final loginController = ref.watch(loginProvider.notifier);
 
     return CupertinoTextField(
+       textInputAction: TextInputAction.next,
       onChanged: (value) {
         loginController.setPassword(value);
       },

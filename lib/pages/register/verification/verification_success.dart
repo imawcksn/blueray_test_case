@@ -83,7 +83,7 @@ class VerificationSuccessPage extends ConsumerWidget {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: true, // Resizes when the keyboard appears
+      resizeToAvoidBottomInset: true, 
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
       appBar: CupertinoNavigationBar(

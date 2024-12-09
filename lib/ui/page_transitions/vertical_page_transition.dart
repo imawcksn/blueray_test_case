@@ -7,8 +7,8 @@ class VerticalPageTransition extends PageRouteBuilder {
       : super(
           pageBuilder: (context, animation, secondaryAnimation) => page,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(0.0, 1.0); // Start from bottom
-            const end = Offset.zero;        // End at the original position
+            const begin = Offset(0.0, 1.0); 
+            const end = Offset.zero;      
             const curve = Curves.easeInOut;
 
             var tween =

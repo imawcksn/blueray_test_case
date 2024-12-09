@@ -22,7 +22,7 @@ class RegisterPage extends ConsumerWidget {
     final registerState = ref.watch(registerProvider);
     final registerController = ref.read(registerProvider.notifier);
     return Scaffold(
-      resizeToAvoidBottomInset: true, // Resizes when the keyboard appears
+      resizeToAvoidBottomInset: true, 
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
       appBar: CupertinoNavigationBar(
@@ -134,8 +134,9 @@ class RegisterPage extends ConsumerWidget {
                                   ),
                                 );
                               } else {
-                                // Show error message in a snack bar
-                                showCupertinoSnackBar(
+                 
+                                showSnackBar(
+                                  backgroundColor: Colors.red,
                                   context: context,
                                   message: registerState2.toString(),
                                 );

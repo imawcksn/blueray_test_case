@@ -2,10 +2,9 @@ import 'package:blueray_test_project/config/config.dart';
 import 'package:dio/dio.dart';
 
 class DioClient {
-  // Singleton instance
+  //Interceptor untuk api calls yang memakai access token
   static final DioClient _instance = DioClient._internal();
 
-  // Dio instance
   final Dio dio;
 
   factory DioClient() {
@@ -37,10 +36,10 @@ class DioClient {
 }
 
 class DioClient2 {
-  // Singleton instance
+  //Interceptor untuk api calls yang memakai auth token
+
   static final DioClient2 _instance = DioClient2._internal();
 
-  // Dio instance
   final Dio dio;
 
   factory DioClient2() {
@@ -70,4 +69,3 @@ class DioClient2 {
     );
   }
 }
-

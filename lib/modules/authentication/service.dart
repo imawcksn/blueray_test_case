@@ -7,6 +7,7 @@ class AuthService {
   String apiPrefix = '${AppConfig.apiBaseUrl}/customer';
   String apiToken = '${AppConfig.apiAccessToken}';
   final dio = DioClient().dio;
+  final dio2 = DioClient2().dio;
 
   Future<String> login(String userId, String password) async {
     final String url = (apiPrefix + '/login');
@@ -19,9 +20,8 @@ class AuthService {
       print(response.data['login']);
       print(response.statusCode);
 
-      // Check for successful response with status 200 or 201
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // If action is true, return the success message, else return failure message.
+
         if (response.data['login'] == true) {
           await prefs.write(key: 'token', value: response.data['token']);
           await prefs.write(
@@ -46,12 +46,49 @@ class AuthService {
     }
   }
 
+  Future<String> logout() async {
+    final String url = (apiPrefix + '/logout');
+
+    try {
+      final response = await dio2.post(
+        url,
+      );
+      print(response);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data['login'] == true) {
+          clearAll(); //TODO make functions to get these
+
+          return '';
+        } else {
+          return '';
+        }
+      } else {
+        throw 'Invalid Credentials';
+      }
+    } catch (e) {
+      print(e.toString());
+      throw (' ${e.toString()}');
+    }
+  }
+
   Future<String?> getAuthToken() async {
     return await prefs.read(key: 'token');
   }
 
+  Future clearAll() async {
+    return await prefs.deleteAll();
+  }
+
   Future<String?> getAuthTokenExpiryDate() async {
     return await prefs.read(key: 'token_expiry_date');
+  }
+
+  Future<String?> getTestAuthTokenExpiryDate() async {
+    final now = DateTime.now().toUtc();
+    final expiryDate = now.add(Duration(seconds: 40));
+
+    return expiryDate.toIso8601String();
   }
 
   Future<void> clearAuthTokenExpiryDate() async {

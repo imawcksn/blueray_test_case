@@ -1,5 +1,6 @@
-import 'package:blueray_test_project/pages/home_page/address_page/address_page.dart';
-import 'package:blueray_test_project/pages/home_page/profile/profile_page.dart';
+import 'package:blueray_test_project/modules/authentication/service.dart';
+import 'package:blueray_test_project/pages/home/address_page/address_page/address_page.dart';
+import 'package:blueray_test_project/pages/starting/starting.dart';
 import 'package:blueray_test_project/ui/pallete/pallete.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +30,18 @@ class MainPage extends ConsumerWidget {
         ),
         trailing: CupertinoButton(
           child: Icon(
-            Icons.headset_mic_rounded,
+            Icons.logout,
             size: 32,
           ),
-          onPressed: () {},
+          onPressed: () {
+            AuthService().logout();
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => StartingPage(),
+              ),
+              (route) => false,
+            );
+          },
           padding: EdgeInsets.all(0),
         ),
       ),
@@ -40,10 +49,25 @@ class MainPage extends ConsumerWidget {
           backgroundColor: Palette.mainBlueColor,
           fixedColor: Palette.mainBlueColor,
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Hi'),
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'His'),
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Hi2'),
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Hei'),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.perm_device_information_outlined,
+                  color: Palette.mainBlueColor,
+                ),
+                label: 'His'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.location_city,
+                  color: Palette.mainBlueColor,
+                ),
+                label: 'Hi2'),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.settings,
+                  color: Palette.mainBlueColor,
+                ),
+                label: 'Hei'),
           ]),
       body: AddressPage(),
     );
